@@ -1,10 +1,11 @@
 # Environment Variables
 
-| Name          | Description                                                                          | Default Value |
-| ------------- | ------------------------------------------------------------------------------------ | ------------- |
-| DERP_HOSTNAME | Specifies the domain for the DERP server.                                            | `example.com` |
-| DERP_CERTMODE | Determines the SSL/TLS certificate management mode. Options: `manual`, `letsencrypt` | `letsencrypt` |
-| DERP_ADDR     | Sets the server address and port to bind to.                                         | `:443`        |
+| Name                | Description                                                                                                                                                                  | Default Value |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| DERP_HOSTNAME       | Specifies the domain for the DERP server.                                                                                                                                    | `example.com` |
+| DERP_CERTMODE       | Determines the SSL/TLS certificate management mode. Options: `manual`, `letsencrypt`                                                                                         | `letsencrypt` |
+| DERP_ADDR           | Sets the server address and port to bind to.                                                                                                                                 | `:443`        |
+| DERP_VERIFY_CLIENTS | Whether to verify clients connecting to the DERP server. [reference](https://tailscale.com/kb/1118/custom-derp-servers#optional-restricting-client-access-to-your-derp-node) | `false`       |
 
 # Volumes
 
@@ -37,4 +38,4 @@ docker run -d --name derper \
 
 ## Adding DERP servers to your tailnet
 
-reference: https://tailscale.com/kb/1118/custom-derp-servers#step-2-adding-derp-servers-to-your-tailnet
+[reference](https://tailscale.com/kb/1118/custom-derp-servers#step-2-adding-derp-servers-to-your-tailnet)

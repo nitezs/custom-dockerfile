@@ -13,6 +13,7 @@ RUN mkdir /app/certs
 ENV DERP_HOSTNAME example.com
 ENV DERP_CERTMODE letsencrypt
 ENV DERP_ADDR :443
+ENV DERP_VERIFY_CLIENTS false
 
 COPY --from=builder /go/bin/derper .
 
@@ -23,7 +24,7 @@ VOLUME ["/app/certs"]
 CMD /app/derper --hostname=$DERP_HOSTNAME \
     --a=$DERP_ADDR \
     --certdir=/app/certs \
-    --verify-clients=true \
+    --verify-clients=$DERP_VERIFY_CLIENTS \
     --certmode=$DERP_CERTMODE
 
 # derper --help
