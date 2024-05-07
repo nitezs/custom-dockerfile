@@ -2,7 +2,7 @@ FROM golang:latest AS builder
 WORKDIR /app
 
 # https://tailscale.com/kb/1118/custom-derp-servers/
-RUN go install tailscale.com/cmd/derper@main
+RUN CGO_ENABLED=0 GOOS=linux go install -tags netgo -ldflags '-w -extldflags "-static"' tailscale.com/cmd/derper@main
 
 FROM alpine:latest
 WORKDIR /app
@@ -10,17 +10,21 @@ WORKDIR /app
 RUN apk --no-cache add ca-certificates
 RUN mkdir /app/certs
 
-ENV DERP_DOMAIN example.com
+ENV DERP_HOSTNAME example.com
+ENV DERP_CERTMODE letsencrypt
+ENV DERP_ADDR :443
 
 COPY --from=builder /go/bin/derper .
 
 EXPOSE 80 443 3478
+
 VOLUME ["/app/certs"]
 
-CMD /app/derper --hostname=$DERP_DOMAIN \
+CMD /app/derper --hostname=$DERP_HOSTNAME \
+    --a=$DERP_ADDR \
     --certdir=/app/certs \
     --verify-clients=true \
-    --certmode manual
+    --certmode=$DERP_CERTMODE
 
 # derper --help
 # 使用方法说明:

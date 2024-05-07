@@ -1,33 +1,40 @@
+# Environment Variables
+
+| Name          | Description                                                                          | Default Value |
+| ------------- | ------------------------------------------------------------------------------------ | ------------- |
+| DERP_HOSTNAME | Specifies the domain for the DERP server.                                            | `example.com` |
+| DERP_CERTMODE | Determines the SSL/TLS certificate management mode. Options: `manual`, `letsencrypt` | `letsencrypt` |
+| DERP_ADDR     | Sets the server address and port to bind to.                                         | `:443`        |
+
+# Volumes
+
+| Name       | Description                                      |
+| ---------- | ------------------------------------------------ |
+| /app/certs | Directory where SSL/TLS certificates are stored. |
+
 # Usage
+
+## Running Directly with SSL/TLS
 
 ```shell
 docker run -d --name derper \
-  -p 80:80 -p 443:443 -p 3478:3478 \
+  -p 443:443 -p 3478:3478 \
   -e DERP_DOMAIN=example.com \
+  -e DERP_CERTMODE=manual \
   -v /path/to/certs:/app/certs \
   nite07/tailscale-derp-docker:latest
 ```
 
-## Docker Compose
+## Running Behind a Reverse Proxy
 
-```yaml
-version: "3.8"
-services:
-  derper:
-    container_name: derper
-    ports:
-      - 80:80
-      - 443:443
-      - 3478:3478
-    environment:
-      - DERP_DOMAIN=example.com
-    volumes:
-      - /path/to/certs:/app/certs
-    image: nite07/tailscale-derp-docker:latest
+```shell
+docker run -d --name derper \
+  -p 8080:80 -p 3478:3478 \
+  -e DERP_DOMAIN=example.com \
+  -e DERP_ADDR=:80 \
+  nite07/tailscale-derp-docker:latest
 ```
 
-# Env
+## Adding DERP servers to your tailnet
 
-| Name        | Description        |
-| ----------- | ------------------ |
-| DERP_DOMAIN | The domain to use. |
+reference: https://tailscale.com/kb/1118/custom-derp-servers#step-2-adding-derp-servers-to-your-tailnet
