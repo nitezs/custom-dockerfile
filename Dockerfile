@@ -14,10 +14,11 @@ ENV DERP_HOSTNAME example.com
 ENV DERP_CERTMODE letsencrypt
 ENV DERP_ADDR :443
 ENV DERP_VERIFY_CLIENTS false
+ENV DERP_HTTP_PORT 80
+ENV DERP_STUN_ENABLE true
+ENV DERP_STUN_PORT 3478
 
 COPY --from=builder /go/bin/derper .
-
-EXPOSE 80 443 3478
 
 VOLUME ["/app/certs"]
 
@@ -25,7 +26,10 @@ CMD /app/derper --hostname=$DERP_HOSTNAME \
     --a=$DERP_ADDR \
     --certdir=/app/certs \
     --verify-clients=$DERP_VERIFY_CLIENTS \
-    --certmode=$DERP_CERTMODE
+    --certmode=$DERP_CERTMODE \
+    --http-port=$DERP_HTTP_PORT \
+    --stun=$DERP_STUN_ENABLE \
+    --stun-port=$DERP_STUN_PORT
 
 # derper --help
 # 使用方法说明:
