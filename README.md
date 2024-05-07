@@ -20,7 +20,7 @@
 
 ```shell
 docker run -d --name derper \
-  -p 80:80 -p 443:443 -p 3478:3478 \
+  -p 80:80 -p 443:443 -p 3478:3478/udp \
   -e DERP_DOMAIN=example.com \
   nite07/tailscale-derp-docker:latest
 ```
