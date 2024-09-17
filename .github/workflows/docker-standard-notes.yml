@@ -1,4 +1,4 @@
-name: docker
+name: docker-standard-notesdocker-standard-notes
 
 on:
   schedule:
