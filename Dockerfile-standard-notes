@@ -8,5 +8,5 @@ RUN yarn build:web
 
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
-COPY --from=builder /app/packages/web .
+COPY --from=builder /app/packages/web/dist .
 CMD ["nginx", "-g", "daemon off;"]
