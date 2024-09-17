@@ -28,5 +28,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: nite07/tailscale-derp-docker:latest
+          tags: nite07/standard-notes-frontend:latest
           platforms: linux/amd64,linux/arm64,linux/arm/v7
+          file: ./Dockerfile-standard-notes

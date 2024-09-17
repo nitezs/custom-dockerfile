@@ -1,0 +1,12 @@
+FROM node:16 AS builder
+
+WORKDIR /app
+
+RUN git clone https://github.com/standardnotes/app.git .
+RUN yarn install
+RUN yarn build:web
+
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+COPY --from=builder /app/packages/web .
+CMD ["nginx", "-g", "daemon off;"]
