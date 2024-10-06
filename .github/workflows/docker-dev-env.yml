@@ -28,4 +28,4 @@ jobs:
           push: true
           tags: nite07/dev-env:latest
           platforms: linux/amd64
-          file: ./Dockerfile-dev-env.dockerfile
+          context: ./dev-env

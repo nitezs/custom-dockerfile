@@ -8,9 +8,12 @@ RUN apt-get update && apt-get install -y \
     unzip \
     make \
     gcc \
-    build-essential
+    build-essential \
+    openssh-server
 
-ENV GO_VERSION=1.23.2
+RUN rm -rf /var/lib/apt/lists/*
+
+ENV GO_VERSION=1.21.3
 RUN curl -OL https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
 RUN rm go${GO_VERSION}.linux-amd64.tar.gz
@@ -26,4 +29,14 @@ RUN go install golang.org/x/tools/gopls@latest
 RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 RUN go install github.com/goreleaser/goreleaser/v2@latest
 
+RUN mkdir /var/run/sshd
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+EXPOSE 22
+
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+ENTRYPOINT ["/start.sh"]
 CMD ["bash"]

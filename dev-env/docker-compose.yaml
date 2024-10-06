@@ -1,0 +1,12 @@
+services:
+  dev-env:
+    image: nite07/dev-env:latest
+    volumes:
+      - ./workspace:/workspace
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    ports:
+      - 2222:22
+    environment:
+      - SSH_PASSWORD=changeme
