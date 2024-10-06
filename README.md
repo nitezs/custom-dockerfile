@@ -1,2 +1,2 @@
 - [tailscale derper](./README-tailscale-derper.md)
-- standard notes frontend
+- my dev env
