@@ -1,8 +1,6 @@
-name: docker-tailscale-derper
+name: docker-dev-env
 
 on:
-  schedule:
-    - cron: "0 0 * * 1"
   workflow_dispatch:
 
 jobs:
@@ -28,6 +26,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: nite07/tailscale-derp-docker:latest
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
-          file: ./Dockerfile-tailscale-derper.dockerfile
+          tags: nite07/dev-env:latest
+          platforms: linux/amd64
+          file: ./Dockerfile-dev-env.dockerfile
